@@ -24,6 +24,10 @@ class SigninViewController: UIViewController, WKNavigationDelegate {
     super.didReceiveMemoryWarning()
   }
   
+  func getAuthInfo() {
+    self.apiRequest();
+  }
+  
   // WKNavigationDelegates
   func webView(webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
     NSLog("Opening web page")
@@ -35,14 +39,15 @@ class SigninViewController: UIViewController, WKNavigationDelegate {
   
   func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
     if utils.matchesForRegexInText("done", text: webView.URL?.absoluteString).count >= 1 {
-      webView.evaluateJavaScript("stringedAuth", completionHandler: {(auth, error) in
-        let passportDict = self.utils.JSONParseDictionary(auth! as! String)
-        
-        /* Save in core data */
-        self.appManager.savePassport(self.appname, passport: passportDict)
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
-      })
+//      webView.evaluateJavaScript("stringedAuth", completionHandler: {(auth, error) in
+//        let passportDict = self.utils.JSONParseDictionary(auth! as! String)
+//        
+//        /* Save in core data */
+//        self.appManager.savePassport(self.appname, passport: passportDict)
+//        
+      self.dismissViewControllerAnimated(true, completion: nil)
+      self.getAuthInfo();
+//      })
     }
   }
   
